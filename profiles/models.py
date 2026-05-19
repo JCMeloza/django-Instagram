@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField('Imagen de perfil', upload_to='profile_pictures/', blank=True, null=True)
     bio = models.TextField('Biografía', max_length=500, blank=True, null=True)
     birth_date = models.DateField('Fecha de nacimiento', blank=True, null=True)
-    followers = models.ManyToManyField(User, symmetrical=False ,related_name='followers',through='Follow')
+    #followers = models.ManyToManyField(User, symmetrical=False ,related_name='followers',through='Follow')
 
     class Meta:
         verbose_name = 'Perfil de usuario'
