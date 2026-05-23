@@ -1,10 +1,10 @@
-
 from django import forms
 from django.contrib.auth.models import User
-from django.forms import widgets
+
 
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget= forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = User
         fields = [
@@ -14,8 +14,14 @@ class RegistrationForm(forms.ModelForm):
             'password',
         ]
 
-    def save(self):
-        user = super().save(commit=True)
+    def save(self, commit=True):
+        user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
-        user.save()
+        if commit:
+            user.save()
         return user
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label="Usuario")
+    password = forms.CharField(label="Contraseña", widget=forms.PasswordInput())

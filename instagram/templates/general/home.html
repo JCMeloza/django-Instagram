@@ -7,7 +7,11 @@
 <div class="container">
    {% include '_includes/_messages.html' %}
    <h1>HomePage</h1>
-   <p>Este es el contenido de la página home</p> 
+   {% if request.user.is_authenticated %}
+   <p>Has iniciado sesión como <strong>{{ request.user.username }}</strong>.</p>
+   {% else %}
+   <p>No has iniciado sesión. Usa <a href="{% url 'login' %}">Login</a> para entrar.</p>
+   {% endif %}
 </div>
 
 {% endblock %}
