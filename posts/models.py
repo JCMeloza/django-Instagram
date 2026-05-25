@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Usuario')
     image = models.ImageField('Imagen', upload_to='posts/')
     caption = models.TextField('Descripción', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name='liked_posts')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creacion')
+    likes = models.ManyToManyField(User, related_name='liked_posts', verbose_name='Número Likes')
 
     class Meta:
         verbose_name = 'Post'
