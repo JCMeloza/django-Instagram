@@ -1,0 +1,23 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %}Bienvenido a nustro Istagram{% endblock %}
+
+
+{% block page_content %}
+<div class="container">
+   <h1>Mi Perfil</h1>
+   <p>Este es el perfil de {{ request.user.username }}</p> 
+   <p>Biografia: {{  profile.bio|default_if_none:"sin rellenar" }}</p>
+   <p>Fecha Nacimiento: {{ profile.birth_date|default_if_none:"sin rellenar" }}</p>
+   <p>
+      {% if profile.profile_picture %}
+            <img width="100px" src="{{profile.profile_picture.url}}" alt="">
+      {% else %}
+      <p>No dispone de imagen de perfil</p>
+      {% endif %}
+   </p>
+   <p>Seguidores: {{profile.followers.count}}</p>
+   <p><a href="{% url 'profile_update' profile.pk %}">Editar</a></p>
+</div>
+
+{% endblock %}

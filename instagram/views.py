@@ -4,10 +4,12 @@ from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from  django.views.generic import TemplateView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
 from .forms import RegistrationForm, LoginForm
 from  django.contrib import messages
+from profiles.models import UserProfile
 
 
 # Create your views here.
@@ -62,3 +64,19 @@ class LegalView(TemplateView):
 class ContactView(TemplateView):
     template_name = "general/contact.html"
 
+class ProfileDetailView(DetailView):
+    model = UserProfile
+    template_name = "general/profile_detail.html"
+    context_object_name = 'profile'
+
+class ProfileUpdateView(UpdateView):
+    model = UserProfile
+    template_name = "general/profile_update.html"
+    context_object_name = 'profile'
+    fields = ['profile_picture','bio','birth_date']
+
+    def form_valid(self,form):
+        messages.add_message(self.request, messages.SUCCESS, "Perfil editado correctamente")
+        return super(ProfileUpdateView, self).form_valid(form)
+    def get_success_url(self):
+        return reverse('profile_detail', args=[self.object.pk])
