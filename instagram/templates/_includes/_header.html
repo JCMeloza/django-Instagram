@@ -6,12 +6,13 @@
             <ul>
                 <li><a href="{% url 'home' %}">Inicio</a></li>
                 {% if request.user.is_authenticated %}
-                <li><span>Hola, {{ request.user.username }}</span></li>
-                <li><a href="{% url 'profile_detail' request.user.profile.pk %}">Mi Perfil</a></li>
-                <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                    <li><span>Hola, {{ request.user.username }}</span></li>
+                    <li><a href="{% url 'profile_detail' request.user.profile.pk %}">Mi Perfil</a></li>
+                    <li><a href="{% url 'post_create' %}">Publicar</a></li>
+                    <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                 {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Registro</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Registro</a></li>
                 {% endif %}
                 <li><a href="{% url 'contact' %}">Contacto</a></li>
                 

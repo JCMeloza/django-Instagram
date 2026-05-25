@@ -14,7 +14,7 @@ class Post(models.Model):
         verbose_name_plural = 'Posts'
 
     def __str__(self):
-        return f'{self.user.user.username} - {self.created_at}'
+        return f'{self.user.username} - {self.created_at}'
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')

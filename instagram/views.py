@@ -10,11 +10,21 @@ from django.urls import reverse_lazy, reverse
 from .forms import RegistrationForm, LoginForm
 from  django.contrib import messages
 from profiles.models import UserProfile
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from posts.models import Post
 
 # Create your views here.
 class HomeView(TemplateView):
     template_name= "general/home.html"
+
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+
+        last_posts = Post.objects.all().order_by('-created_at')[:5]
+        context['last_posts'] = last_posts
+
+        return context
 
 class LoginView(FormView):
     template_name = "general/login.html"
@@ -33,7 +43,7 @@ class LoginView(FormView):
         messages.error(self.request, 'Usuario o contraseña no válidos')
         return self.form_invalid(form)
 
-
+@method_decorator(login_required, name='dispatch')
 class LogoutView(View):
     def post(self, request):
         logout(request)
@@ -64,11 +74,13 @@ class LegalView(TemplateView):
 class ContactView(TemplateView):
     template_name = "general/contact.html"
 
+@method_decorator(login_required, name='dispatch')
 class ProfileDetailView(DetailView):
     model = UserProfile
     template_name = "general/profile_detail.html"
     context_object_name = 'profile'
 
+@method_decorator(login_required, name='dispatch')
 class ProfileUpdateView(UpdateView):
     model = UserProfile
     template_name = "general/profile_update.html"

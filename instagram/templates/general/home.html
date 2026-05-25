@@ -6,12 +6,20 @@
 {% block page_content %}
 <div class="container">
    {% include '_includes/_messages.html' %}
+   
    <h1>HomePage</h1>
    {% if request.user.is_authenticated %}
    <p>Has iniciado sesión como <strong>{{ request.user.username }}</strong>.</p>
    {% else %}
    <p>No has iniciado sesión. Usa <a href="{% url 'login' %}">Login</a> para entrar.</p>
    {% endif %}
+   <section>
+      <h2>Ultimas Publicaciones</h2>
+      {% for post in last_posts %}
+          {% include '_includes/posts/_posts.html' %}
+          
+      {% endfor %} 
+   </section>
 </div>
 
 {% endblock %}
