@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
-from  django.views.generic import TemplateView
+from  django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
@@ -87,6 +87,17 @@ class ProfileDetailView(DetailView):
             Post.objects.filter(user=profile.user).order_by('-created_at')
         )
         return context
+
+@method_decorator(login_required, name='dispatch')
+class ProfileListlView(ListView):
+    model = UserProfile
+    template_name = "general/profile_list.html"
+    context_object_name = 'profiles'
+
+    def get_queryset(self):
+        return UserProfile.objects.all().exclude(user=self.request.user)
+
+    
 
 @method_decorator(login_required, name='dispatch')
 class ProfileUpdateView(UpdateView):
