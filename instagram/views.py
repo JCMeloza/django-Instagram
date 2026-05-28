@@ -7,7 +7,7 @@ from  django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
-from .forms import RegistrationForm, LoginForm
+from .forms import ProfileFollow, RegistrationForm, LoginForm
 from  django.contrib import messages
 from profiles.models import UserProfile
 from django.contrib.auth.decorators import login_required
@@ -75,10 +75,11 @@ class ContactView(TemplateView):
     template_name = "general/contact.html"
 
 @method_decorator(login_required, name='dispatch')
-class ProfileDetailView(DetailView):
+class ProfileDetailView(DetailView, FormView):
     model = UserProfile
     template_name = "general/profile_detail.html"
     context_object_name = 'profile'
+    form_class = ProfileFollow
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -87,6 +88,16 @@ class ProfileDetailView(DetailView):
             Post.objects.filter(user=profile.user).order_by('-created_at')
         )
         return context
+
+    def form_valid(self, form):
+        profile_pk = form.cleaned_data['profile_pk']
+        profile = UserProfile.objects.get(pk=profile_pk)
+        self.request.user.profile.follow(profile)
+        
+        messages.success(self.request, f'Usuario seguido correctamente')
+        return super(ProfileDetailView,self).form_valid(form)
+    def get_success_url(self):
+        return reverse('profile_detail', args=[self.request.user.profile.pk])
 
 @method_decorator(login_required, name='dispatch')
 class ProfileListlView(ListView):
