@@ -1,3 +1,4 @@
+{# Home: last_posts lo envía HomeView.get_context_data #}
 {% extends "general/layout.html" %}
 
 {% block head_title %}Bienvenido a nustro Istagram{% endblock %}
@@ -16,6 +17,7 @@
    <section>
       <h2>Ultimas Publicaciones</h2>
       <div class="row">
+         {# Bucle: un include por cada publicación (componente reutilizable) #}
          {% for post in last_posts %}
                <div class="col-12 col-sm-6 col-md-4">
                   {% include '_includes/posts/_posts.html' %}

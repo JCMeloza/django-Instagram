@@ -1,11 +1,23 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+"""
+Punto de entrada del proyecto Django.
+
+Uso habitual:
+  python manage.py runserver     → arranca el servidor web local
+  python manage.py migrate       → aplica cambios de modelos a la base de datos
+  python manage.py createsuperuser → crea usuario para /admin/
+"""
 import os
 import sys
 
 
 def main():
-    """Run administrative tasks."""
+    """
+    Configura Django y ejecuta el comando que escribas en la terminal.
+
+    Ejemplo: python manage.py runserver
+    → Django carga instagram.settings y ejecuta el servidor en el puerto 8000.
+    """
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'instagram.settings')
     try:
         from django.core.management import execute_from_command_line

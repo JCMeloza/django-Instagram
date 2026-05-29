@@ -1,3 +1,5 @@
+{# Plantilla BASE: el resto de páginas hacen {% extends "general/layout.html" %} #}
+{# block head_title = título de la pestaña; block page_content = contenido de cada página #}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,8 +12,10 @@
 </head>
 <body>
   <div class="container">
+    {# Cabecera común con menú de navegación #}
     {% include '_includes/_header.html' %}
-   
+
+    {# Cada vista rellena este bloque con su HTML #}
     {% block page_content %}
       
     {% endblock %}

@@ -1,3 +1,4 @@
+{# Detalle de perfil: variables profile, last_posts, followers_count, is_following (ProfileDetailView) #}
 {% extends "general/layout.html" %}
 {% load crispy_forms_tags %}
 
@@ -17,23 +18,26 @@
       <p>No dispone de imagen de perfil</p>
       {% endif %}
    </p>
-   <p>Seguidores: {{profile.followers.count}}</p>
-   <p>Seguidos: {{profile.followers.count}}</p>
-   {% if profile not in request.user.profile.follower_set.all %}
-      <p>No lo estoy siguiendo</p>
-      <p>
-         <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="profile_pk" value="{{ profile.pk }}">
-            <button class="button">Seguir</button>
-         </form>
-      </p>
-      
-   
+
+   {# Contadores calculados en la vista con la tabla Follow (no el M2M followers) #}
+   <p>Seguidores: {{ followers_count }}</p>
+   <p>Seguidos: {{ following_count }}</p>
+
+   {# Solo mostramos "Seguir" si no es nuestro perfil y aún no lo seguimos #}
+   {% if profile.user != request.user and not is_following %}
+      <form method="post">
+         {% csrf_token %}
+         <input type="hidden" name="profile_pk" value="{{ profile.pk }}">
+         <button type="submit" class="button">Seguir</button>
+      </form>
+   {% elif profile.user != request.user and is_following %}
+      <p>Ya sigues a este usuario.</p>
    {% endif %}
+
    {% if profile.user == request.user %}
    <p><a href="{% url 'profile_update' profile.pk %}">Editar</a></p>
    {% endif %}
+
    <section>
       <h2>Publicaciones</h2>
       <div class="row">
@@ -41,7 +45,6 @@
                <div class="col-12 col-sm-6 col-md-4">
                   {% include '_includes/posts/_posts.html' %}
                </div>
-         
          {% endfor %} 
       </div>
    </section>
