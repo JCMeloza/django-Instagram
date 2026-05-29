@@ -15,6 +15,9 @@
     {# Cabecera común con menú de navegación #}
     {% include '_includes/_header.html' %}
 
+    {# Mensajes flash (success, error...) en todas las páginas que usan este layout #}
+    {% include '_includes/_messages.html' %}
+
     {# Cada vista rellena este bloque con su HTML #}
     {% block page_content %}
       

@@ -19,7 +19,8 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
-from .forms import ProfileFollow, RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm
+from profiles.forms import ProfileFollow
 from django.contrib import messages
 from profiles.models import Follow, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -177,29 +178,33 @@ class ProfileDetailView(DetailView, FormView):
         # Tabla Follow: 'follower' = perfil que inicia el seguimiento (a quién sigue este perfil).
         context['following_count'] = profile.follower_set.count()
 
-        # ¿El usuario logueado ya tiene una fila Follow hacia este perfil?
-        context['is_following'] = Follow.objects.filter(
+        # Si True, la plantilla muestra "Dejar de seguir"; si False, "Seguir".
+        context['is_following'] = self._is_following(profile)
+
+        return context
+
+    def _is_following(self, profile):
+        """Comprueba si el usuario logueado sigue al perfil indicado."""
+        return Follow.objects.filter(
             follower=self.request.user.profile,
             following=profile,
         ).exists()
 
-        return context
-
     def form_valid(self, form):
         """
-        Cuando el usuario pulsa 'Seguir' y el formulario es válido.
-
-        profile_pk viene del input oculto en la plantilla (id del perfil a seguir).
+        Un solo POST: si ya lo sigues → unfollow; si no → follow.
+        La plantilla solo cambia el texto del botón según is_following.
         """
-        profile_to_follow = UserProfile.objects.get(pk=form.cleaned_data['profile_pk'])
+        profile = UserProfile.objects.get(pk=form.cleaned_data['profile_pk'])
+        self.followed_profile_pk = profile.pk
 
-        # Lo usamos en get_success_url para no redirigir al perfil del usuario logueado.
-        self.followed_profile_pk = profile_to_follow.pk
+        if self._is_following(profile):
+            self.request.user.profile.unfollow(profile)
+            messages.success(self.request, 'Has dejado de seguir a este usuario')
+        else:
+            self.request.user.profile.follow(profile)
+            messages.success(self.request, 'Usuario seguido correctamente')
 
-        # Método del modelo: crea Follow(follower=yo, following=otro).
-        self.request.user.profile.follow(profile_to_follow)
-
-        messages.success(self.request, 'Usuario seguido correctamente')
         return super().form_valid(form)
 
     def get_success_url(self):

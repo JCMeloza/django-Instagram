@@ -54,6 +54,10 @@ class UserProfile(models.Model):
         """
         Follow.objects.get_or_create(follower=self, following=profile)
 
+    def unfollow(self, profile):
+        """Elimina la relación de seguimiento entre este perfil y otro."""
+        Follow.objects.filter(follower=self, following=profile).delete()
+
 
 class Follow(models.Model):
     """

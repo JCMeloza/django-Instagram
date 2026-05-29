@@ -16,7 +16,8 @@ Usuario → URL (urls.py) → Vista (views.py) → Modelo (models.py) / Formular
 | `instagram/settings.py` | Configuración global |
 | `instagram/urls.py` | Mapa URL → vista |
 | `instagram/views.py` | Home, login, perfiles, registro |
-| `instagram/forms.py` | Formularios de registro, login, seguir |
+| `instagram/forms.py` | Formularios de registro y login |
+| `profiles/forms.py` | Formulario para seguir perfiles |
 | `instagram/templates/` | HTML que ve el usuario |
 | `profiles/models.py` | UserProfile, Follow |
 | `posts/models.py` | Post, Comment |
@@ -57,7 +58,7 @@ Usuario → URL (urls.py) → Vista (views.py) → Modelo (models.py) / Formular
 
 1. `profiles/models.py` y `posts/models.py`
 2. `instagram/urls.py`
-3. `instagram/forms.py`
+3. `instagram/forms.py` y `profiles/forms.py`
 4. `instagram/views.py` (empezar por HomeView y LoginView)
 5. `posts/views.py`
 6. Plantillas empezando por `layout.html` y `home.html`

@@ -60,14 +60,3 @@ class LoginForm(forms.Form):
 
     username = forms.CharField(label="Usuario")
     password = forms.CharField(label="Contraseña", widget=forms.PasswordInput())
-
-
-class ProfileFollow(forms.Form):
-    """
-    Formulario mínimo para el botón 'Seguir'.
-
-    Un solo campo oculto (HiddenInput) con el id del perfil a seguir.
-    La plantilla envía profile_pk por POST; la vista lo lee en form_valid().
-    """
-
-    profile_pk = forms.IntegerField(widget=forms.HiddenInput())

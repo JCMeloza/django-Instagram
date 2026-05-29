@@ -23,15 +23,17 @@
    <p>Seguidores: {{ followers_count }}</p>
    <p>Seguidos: {{ following_count }}</p>
 
-   {# Solo mostramos "Seguir" si no es nuestro perfil y aún no lo seguimos #}
-   {% if profile.user != request.user and not is_following %}
+   {# Un solo formulario: el texto del botón depende de is_following; la acción la decide la vista #}
+   {% if profile.user != request.user %}
       <form method="post">
          {% csrf_token %}
          <input type="hidden" name="profile_pk" value="{{ profile.pk }}">
-         <button type="submit" class="button">Seguir</button>
+         {% if is_following %}
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Dejar de seguir</button>
+         {% else %}
+            <button type="submit" class="btn btn-primary btn-sm">Seguir</button>
+         {% endif %}
       </form>
-   {% elif profile.user != request.user and is_following %}
-      <p>Ya sigues a este usuario.</p>
    {% endif %}
 
    {% if profile.user == request.user %}
