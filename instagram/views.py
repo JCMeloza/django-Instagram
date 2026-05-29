@@ -46,8 +46,20 @@ class HomeView(TemplateView):
         """
         context = super().get_context_data(**kwargs)
 
-        # Consulta a la base de datos: todos los posts, más nuevos primero, máximo 5.
-        last_posts = Post.objects.all().order_by('-created_at')[:5]
+        #si el usuario esta logueado
+        if self.request.user.is_authenticated:
+
+            seguidos = Follow.objects.filter(
+                follower=self.request.user.profile
+            ).values_list('following__user_id', flat=True)
+
+            last_posts = Post.objects.filter(
+                user_id__in=seguidos
+            ).order_by('-created_at')
+
+        else:
+
+            last_posts = Post.objects.all().order_by('-created_at')[:5]
         context['last_posts'] = last_posts
 
         return context
