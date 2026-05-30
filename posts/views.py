@@ -38,6 +38,6 @@ class PostCreateView(CreateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "Publicaión creada corectamente.",
+            "Publicación creada correctamente.",
         )
         return super(PostCreateView, self).form_valid(form)

@@ -138,7 +138,7 @@ class RegisterView(CreateView):
         Tras guardar el usuario, mostramos un mensaje flash y redirigimos al login.
         El perfil UserProfile se crea dentro de RegistrationForm.save().
         """
-        messages.add_message(self.request, messages.SUCCESS, "Usuarios creado con exito")
+        messages.add_message(self.request, messages.SUCCESS, "Usuario creado con éxito.")
         return super(RegisterView, self).form_valid(form)
 
 
@@ -230,7 +230,7 @@ class ProfileDetailView(DetailView, FormView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ProfileListlView(ListView):
+class ProfileListView(ListView):
     """
     Lista de perfiles de otros usuarios (/profile/list/).
 

@@ -18,7 +18,7 @@ from .views import (
     LegalView,
     ContactView,
     ProfileDetailView,
-    ProfileListlView,
+    ProfileListView,
 )
 from django.conf.urls.static import static
 from django.conf import settings
@@ -34,7 +34,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
 
     # Perfiles: listado, detalle (ver + seguir) y edición del propio perfil.
-    path('profile/list/', ProfileListlView.as_view(), name='profile_list'),
+    path('profile/list/', ProfileListView.as_view(), name='profile_list'),
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile_detail'),
     path('profile/update/<int:pk>/', ProfileUpdateView.as_view(), name='profile_update'),
 
