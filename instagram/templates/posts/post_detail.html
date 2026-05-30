@@ -1,0 +1,60 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %}Bienvenido a nustro Istagram{% endblock %}
+
+
+{% block page_content %}
+<div class="container">
+   <h1>Detalle de Publicación</h1>
+   <div class="row">
+    <article class="cold-md-4" aria-labelledby="post-author-{{ post.pk }}">
+            <div class="card border shadow-sm">
+                <header class="card-header bg-white border-bottom py-2 px-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            {% if post.user.profile.profile_picture %}
+                            <img
+                                class="rounded-circle object-fit-cover"
+                                src="{{ post.user.profile.profile_picture.url }}"
+                                alt="Foto de perfil de {{ post.user.username }}"
+                                width="45"
+                                height="45"
+                            >
+                            {% endif %}
+                            <div>
+                                <span id="post-author-{{ post.pk }}" class="fw-bold d-block">
+                                    {{ post.user.get_full_name|default:post.user.username }}
+                                </span>
+                                <time class="text-muted small" datetime="{{ post.created_at|date:'c' }}">
+                                    {{ post.created_at|date:"d M Y, H:i" }}
+                                </time>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </header>
+
+                {% if post.caption %}
+                <div class="card-body py-2 px-3 pb-0">
+                    <p class="mb-0">{{ post.caption }}</p>
+                </div>
+                {% endif %}
+
+                <figure class="card-img-bottom mb-0 px-3 {% if not post.caption %}pt-2{% endif %} pb-2 text-center">
+                    <img
+                        class="img-fluid rounded w-50 mx-auto d-block"
+                        src="{{ post.image.url }}"
+                        alt="Imagen de la publicación de {{ post.user.username }}"
+                    >
+                </figure>
+
+                <footer class="card-footer bg-white border-top d-flex justify-content-end gap-3 py-2">
+                    <p>{{ post.likes.all.count }}</p>
+                </footer>
+            </div>
+        </article>
+   </div>
+
+</div>
+
+{% endblock %}

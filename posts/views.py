@@ -5,6 +5,7 @@ Aquí solo está la creación de publicaciones; el listado en home está en inst
 """
 
 from django.urls import reverse_lazy
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from posts.models import Post
@@ -41,3 +42,10 @@ class PostCreateView(CreateView):
             "Publicación creada correctamente.",
         )
         return super(PostCreateView, self).form_valid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+class PostDetailView(DetailView):
+    template_name ="posts/post_detail.html"
+    model= Post
+    context_object_name = 'post'

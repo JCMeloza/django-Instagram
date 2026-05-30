@@ -22,7 +22,7 @@ from .views import (
 )
 from django.conf.urls.static import static
 from django.conf import settings
-from posts.views import PostCreateView
+from posts.views import PostCreateView, PostDetailView
 
 urlpatterns = [
     # Página principal: feed con últimas publicaciones.
@@ -44,6 +44,9 @@ urlpatterns = [
     # Páginas informativas estáticas.
     path('legal/', LegalView.as_view(), name='legal'),
     path('contact/', ContactView.as_view(), name='contact'),
+
+    #Página para detalle de un post
+    path('popsts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
 
     # Panel de administración de Django (superusuario).
     path('admin/', admin.site.urls),
