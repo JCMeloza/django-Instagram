@@ -25,7 +25,6 @@
             </div>
         </header>
 
-        
 
         <figure class="card-img-bottom mb-0 px-3 {% if not post.caption %}pt-2{% endif %} pb-2 text-center">
             <img
@@ -35,12 +34,8 @@
             >
         </figure>
 
-        <footer>
-            <p class="text-center mt-3 mb-3">
-                <a class="btn btn-primary btn-sm" href="{% url 'post_detail' post.pk %}" role="button">Ver Post</a>
-           
-            </p>
-            
+        <footer class="card-footer bg-white border-top d-flex justify-content-center py-2">
+            <a class="btn btn-primary btn-sm" href="{% url 'post_detail' post.pk %}" role="button">Ver Post</a>
         </footer>
     </div>
 </article>

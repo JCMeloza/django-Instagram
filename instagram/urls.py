@@ -40,13 +40,11 @@ urlpatterns = [
 
     # Crear una publicación con imagen (app posts).
     path('post/create/', PostCreateView.as_view(), name='post_create'),
-
+    # ver detalle de un post
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     # Páginas informativas estáticas.
     path('legal/', LegalView.as_view(), name='legal'),
     path('contact/', ContactView.as_view(), name='contact'),
-
-    #Página para detalle de un post
-    path('popsts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
 
     # Panel de administración de Django (superusuario).
     path('admin/', admin.site.urls),

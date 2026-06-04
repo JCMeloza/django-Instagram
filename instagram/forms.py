@@ -46,8 +46,8 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
 
-        from profiles.models import UserProfile
-        UserProfile.objects.create(user=user)
+            from profiles.models import UserProfile
+            UserProfile.objects.create(user=user)
         return user
 
 

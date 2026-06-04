@@ -13,7 +13,6 @@ from .forms import PostCreateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-
 @method_decorator(login_required, name='dispatch')
 class PostCreateView(CreateView):
     """
@@ -46,6 +45,10 @@ class PostCreateView(CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class PostDetailView(DetailView):
-    template_name ="posts/post_detail.html"
-    model= Post
+    """
+    Detalle del post.
+    /post/<int:pk>/ 
+    """
+    template_name = "posts/post_detail.html"
+    model = Post
     context_object_name = 'post'
