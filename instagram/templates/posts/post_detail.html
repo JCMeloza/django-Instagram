@@ -51,16 +51,11 @@
                        >
                    </figure>
 
-                   <footer class="card-footer bg-white border-top d-flex justify-content-end gap-3 py-2">
-                       <button type="button" class="btn btn-sm btn-link text-decoration-none" aria-label="Me gusta">
-                           Me gusta
-                       </button>
-                       <button type="button" class="btn btn-sm btn-link text-decoration-none" aria-label="Comentar">
-                           Comentar
-                       </button>
-                       <button type="button" class="btn btn-sm btn-link text-decoration-none" aria-label="Compartir">
-                           Compartir
-                       </button>
+                   <footer>
+                        
+                    <div class="text-center mt-3 mb-3">
+                        <p>{{ post.likes.all.count}}<a href=""> <i class="bi bi-heart"></i> </a> </p>
+                     </div>
                    </footer>
                </div>
            </article>

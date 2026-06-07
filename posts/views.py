@@ -52,3 +52,13 @@ class PostDetailView(DetailView):
     template_name = "posts/post_detail.html"
     model = Post
     context_object_name = 'post'
+
+
+def like_post(request,pk):
+    post = Post.objects.get(pk=pk)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_detail', args=[pk]))

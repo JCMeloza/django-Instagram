@@ -282,3 +282,4 @@ class ProfileUpdateView(UpdateView):
         if user_profile.user != self.request.user:
             return HttpResponseRedirect(reverse('home'))
         return super().dispatch(request, *args, **kwargs)
+
