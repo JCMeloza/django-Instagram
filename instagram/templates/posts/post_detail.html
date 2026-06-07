@@ -54,7 +54,12 @@
                    <footer>
                         
                     <div class="text-center mt-3 mb-3">
-                        <p>{{ post.likes.all.count}}<a href=""> <i class="bi bi-heart"></i> </a> </p>
+                        <p>{{ post.likes.all.count}}<a href="{% url 'post_like' post.pk %}">
+                             {% if request.user in post.likes.all %}
+                                <i class="bi bi-suit-heart-fill"></i>
+                             {% else %}
+                                <i class="bi bi-heart"></i>
+                             {% endif %} </a> </p>
                      </div>
                    </footer>
                </div>

@@ -4,7 +4,7 @@ VISTAS de la app 'posts'.
 Aquí solo está la creación de publicaciones; el listado en home está en instagram/views.py.
 """
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from django.contrib import messages
@@ -12,6 +12,8 @@ from posts.models import Post
 from .forms import PostCreateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponseRedirect
+
 
 @method_decorator(login_required, name='dispatch')
 class PostCreateView(CreateView):
@@ -53,12 +55,16 @@ class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
 
-
+@login_required
 def like_post(request,pk):
     post = Post.objects.get(pk=pk)
     if request.user in post.likes.all():
+        messages.add_message(request, messages.INFO, "Ya no te gusta la publicación")
         post.likes.remove(request.user)
         
     else:
         post.likes.add(request.user)
+        messages.add_message(request, messages.INFO, "Te gusta la publicación")
+
+        
     return HttpResponseRedirect(reverse('post_detail', args=[pk]))

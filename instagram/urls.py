@@ -22,7 +22,7 @@ from .views import (
 )
 from django.conf.urls.static import static
 from django.conf import settings
-from posts.views import PostCreateView, PostDetailView
+from posts.views import PostCreateView, PostDetailView, like_post
 
 urlpatterns = [
     # Página principal: feed con últimas publicaciones.
@@ -42,6 +42,8 @@ urlpatterns = [
     path('post/create/', PostCreateView.as_view(), name='post_create'),
     # ver detalle de un post
     path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    #PAGINA PARA DAR LEIK
+    path('post/like/<int:pk>/', like_post, name='post_like'),
     # Páginas informativas estáticas.
     path('legal/', LegalView.as_view(), name='legal'),
     path('contact/', ContactView.as_view(), name='contact'),
