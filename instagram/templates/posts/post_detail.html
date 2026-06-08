@@ -54,13 +54,34 @@
                    <footer>
                         
                     <div class="text-center mt-3 mb-3">
-                        <p><span id="nLikes">{{ post.likes.all.count}}</span><a id="likeButton" href="{% url 'post_like_ajax' post.pk %}">
-                             {% if request.user in post.likes.all %}
-                                <i class="bi bi-suit-heart-fill"></i>
-                             {% else %}
-                                <i class="bi bi-heart"></i>
-                             {% endif %} </a> </p>
+                        {% if request.user.is_authenticated %}
+                            <p><span id="nLikes">{{ post.likes.all.count}}</span><a id="likeButton" href="{% url 'post_like_ajax' post.pk %}">
+                                {% if request.user in post.likes.all %}
+                                    <i class="bi bi-suit-heart-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-heart"></i>
+                                {% endif %} </a> </p>
+                        {% endif %}
                      </div>
+                     <section class="comments py-2 px-3">
+                        <h5>Comentarios</h5>
+                        {% if post.comments.all.count %}
+                            {% for comment in post.comments.all %}
+                                <article>
+                                    <header>
+                                        <p>{{ comment.user }} creado : {{ comment.created_at|date:"d M Y, H:i" }}</p> 
+                                    </header>
+                                    <p>{{ comment.text }}</p>
+                                </article>
+                            
+                           
+                            {% endfor %}
+                        {% else %}
+                            <p>No hay comentarios para esta publicación</p>
+                        
+                        {% endif %}
+
+                     </section>
                    </footer>
                </div>
            </article>
