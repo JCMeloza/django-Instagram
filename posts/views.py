@@ -4,6 +4,7 @@ VISTAS de la app 'posts'.
 Aquí solo está la creación de publicaciones; el listado en home está en instagram/views.py.
 """
 
+from django.http.response import JsonResponse
 from django.urls import reverse_lazy,reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
@@ -68,3 +69,21 @@ def like_post(request,pk):
 
         
     return HttpResponseRedirect(reverse('post_detail', args=[pk]))
+
+@login_required
+def like_post_ajax(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        liked = False
+        message = 'Ya no te gusta la publicación'
+    else:
+        post.likes.add(request.user)
+        liked = True
+        message = 'Te gusta la publicación'
+
+    return JsonResponse({
+        'message': message,
+        'liked': liked,
+        'likes_count': post.likes.count(),
+    })

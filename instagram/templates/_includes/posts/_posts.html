@@ -36,8 +36,11 @@
 
         <footer>
             <div class="text-center">
-                 <p>{{ post.likes.all.count}} 
-                    
+                 <p>
+                <a href="{% url 'post_like_ajax' post.pk %}" class="likeButton">    
+                    <span>
+                        {{ post.likes.all.count}} 
+                    </span>
                 {% if request.user in post.likes.all %}
                     <i class="bi bi-suit-heart-fill"></i>
                 {% else %}
