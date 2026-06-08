@@ -2,7 +2,7 @@
 FORMULARIOS de la app 'posts'.
 """
 
-from posts.models import Post
+from posts.models import Comment, Post
 from django import forms
 
 
@@ -19,4 +19,11 @@ class PostCreateForm(forms.ModelForm):
         fields = [
             'image',
             'caption',
+        ]
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            'text',
         ]

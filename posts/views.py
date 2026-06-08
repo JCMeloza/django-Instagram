@@ -10,7 +10,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from posts.models import Post
-from .forms import PostCreateForm
+from .forms import PostCreateForm, CommentCreateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
@@ -47,7 +47,7 @@ class PostCreateView(CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class PostDetailView(DetailView):
+class PostDetailView(DetailView, CreateView):
     """
     Detalle del post.
     /post/<int:pk>/ 
@@ -55,6 +55,7 @@ class PostDetailView(DetailView):
     template_name = "posts/post_detail.html"
     model = Post
     context_object_name = 'post'
+    form_class = CommentCreateForm
 
 @login_required
 def like_post(request,pk):
