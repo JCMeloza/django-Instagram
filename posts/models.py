@@ -56,6 +56,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comentario'
         verbose_name_plural = 'Comentarios'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f'Comentó {self.user.username} el post {self.post}'
