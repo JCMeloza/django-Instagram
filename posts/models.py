@@ -50,7 +50,7 @@ class Comment(models.Model):
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    text = models.TextField('Comentario', blank=True, null=True, max_length=300)
+    text = models.TextField('Contenido del Comentario', blank=True, null=True, max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

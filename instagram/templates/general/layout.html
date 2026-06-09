@@ -33,30 +33,27 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script>
-    const likeButtons = document.querySelectorAll('.likeButton');
-    if (likeButtons) {
-        likeButtons.forEach(likeButton => {
-            const nLikesSpan = likeButton.querySelector('span');
-            const likeIcon = likeButton.querySelector('i');
+    // Like AJAX: funciona en home (_posts.html) y en post_detail si usan class="likeButton".
+    document.querySelectorAll('.likeButton').forEach((likeButton) => {
+      const nLikesSpan = likeButton.querySelector('span');
+      const likeIcon = likeButton.querySelector('i');
 
-            likeButton.addEventListener('click', (event) => {
-                event.preventDefault();
-                fetch(likeButton.href)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        nLikesSpan.textContent = data.likes_count;
-                        if (data.liked) {
-                            likeIcon.classList.remove('bi-heart');
-                            likeIcon.classList.add('bi-suit-heart-fill');
-                        } else {
-                            likeIcon.classList.remove('bi-suit-heart-fill');
-                            likeIcon.classList.add('bi-heart');
-                        }
-                    });
-            });
-        });
-    }
-</script>
+      likeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        fetch(likeButton.href)
+          .then((response) => response.json())
+          .then((data) => {
+            if (nLikesSpan) {
+              nLikesSpan.textContent = data.likes_count;
+            }
+            if (likeIcon) {
+              likeIcon.classList.toggle('bi-heart', !data.liked);
+              likeIcon.classList.toggle('bi-suit-heart-fill', data.liked);
+            }
+          });
+      });
+    });
+  </script>
 
 </body>
 </html>

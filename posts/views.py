@@ -57,6 +57,19 @@ class PostDetailView(DetailView, CreateView):
     context_object_name = 'post'
     form_class = CommentCreateForm
 
+    def form_valid(self, form):
+        """
+        Antes de guardar, asignamos el autor y el post.
+        """
+        form.instance.user = self.request.user
+        form.instance.post = self.get_object()
+        return super(PostDetailView, self).form_valid(form)
+
+    def get_success_url(self):
+        """Tras crear el comentario, volvemos a ver el detalle de post"""
+        messages.add_message(self.request, messages.SUCCESS, "Comentario creado correctamente.")
+        return reverse('post_detail', args=[self.get_object().pk])
+
 @login_required
 def like_post(request,pk):
     post = Post.objects.get(pk=pk)

@@ -55,24 +55,30 @@
                         
                     <div class="text-center mt-3 mb-3">
                         {% if request.user.is_authenticated %}
-                            <p><span id="nLikes">{{ post.likes.all.count}}</span><a id="likeButton" href="{% url 'post_like_ajax' post.pk %}">
-                                {% if request.user in post.likes.all %}
-                                    <i class="bi bi-suit-heart-fill"></i>
-                                {% else %}
-                                    <i class="bi bi-heart"></i>
-                                {% endif %} </a> </p>
+                            {# Misma estructura que _posts.html: el JS de layout.html usa .likeButton #}
+                            <p>
+                                <a href="{% url 'post_like_ajax' post.pk %}" class="likeButton">
+                                    <span>{{ post.likes.all.count }}</span>
+                                    {% if request.user in post.likes.all %}
+                                        <i class="bi bi-suit-heart-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-heart"></i>
+                                    {% endif %}
+                                </a>
+                            </p>
                         {% endif %}
                      </div>
                      <section class="comments py-2 px-3">
-                        <h5>Comentarios</h5>
+                        <h5>Comentarios:</h5>
                         {% if post.comments.all.count %}
                             {% for comment in post.comments.all %}
                                 <article>
                                     <header>
-                                        <p>{{ comment.user }} creado : {{ comment.created_at|date:"d M Y, H:i" }}</p> 
+                                        <p><strong>Autor:</strong> {{ comment.user }} <strong>creado</strong> : {{ comment.created_at|date:"d M Y, H:i" }}</p> 
                                     </header>
                                     <p>{{ comment.text }}</p>
                                 </article>
+                                <hr/>
                             
                            
                             {% endfor %}
@@ -81,12 +87,23 @@
                         
                         {% endif %}
                         <div>
-                            <h5>Añadir Comentario</h5>
-                            <form action="" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form.text|as_crispy_field }}
+                            <details>
+                                <summary>Nuevo Comentario</summary>
+                                <form action="" method="post" enctype="multipart/form-data">
+                                <div class="col col-12">
+                                    {% csrf_token %}
+                                    {{ form.text|as_crispy_field }}   
+                                </div>
+                                <div class="col col-12">
+                                    <button type="submit" class="btn btn-sm btn-primary">Comentar</button>
+                                </div>
                             
                             </form>
+                            </details>    
+
+
+                            
+                            
 
                         </div>
 
@@ -97,5 +114,4 @@
        </div>
    </div>
 </div>
-
 {% endblock %}
