@@ -7,48 +7,65 @@
 
 {% block page_content %}
 <div class="container">
-   <h1>Perfil</h1>
-   <p>Este es el perfil de {{ profile.user.username }}</p> 
-   <p>Biografia: {{  profile.bio|default_if_none:"sin rellenar" }}</p>
-   <p>Fecha Nacimiento: {{ profile.birth_date|default_if_none:"sin rellenar" }}</p>
-   <p>
-      {% if profile.profile_picture %}
-            <img width="100px" src="{{profile.profile_picture.url}}" alt="">
-      {% else %}
-      <p>No dispone de imagen de perfil</p>
-      {% endif %}
-   </p>
-
-   {# Contadores calculados en la vista con la tabla Follow (no el M2M followers) #}
-   <p>Seguidores: {{ followers_count }}</p>
-   <p>Seguidos: {{ following_count }}</p>
-
-   {# Un solo formulario: el texto del botón depende de is_following; la acción la decide la vista #}
-   {% if profile.user != request.user %}
-      <form method="post">
-         {% csrf_token %}
-         <input type="hidden" name="profile_pk" value="{{ profile.pk }}">
-         {% if is_following %}
-            <button type="submit" class="btn btn-outline-secondary btn-sm">Dejar de seguir</button>
-         {% else %}
-            <button type="submit" class="btn btn-primary btn-sm">Seguir</button>
-         {% endif %}
-      </form>
-   {% endif %}
-
-   {% if profile.user == request.user %}
-   <p><a href="{% url 'profile_update' profile.pk %}">Editar</a></p>
-   {% endif %}
-
-   <section>
-      <h2>Publicaciones</h2>
-      <div class="row">
-         {% for post in last_posts %}
-               <div class="col-12 col-sm-6 col-md-4">
-                  {% include '_includes/posts/_posts.html' %}
+   <div class="row justify-content-center">
+       <div class="col-12 col-md-8 col-lg-6">
+           <div class="card shadow-sm">
+               <div class="card-header text-center bg-light">
+                   {% if profile.profile_picture %}
+                   <img class="rounded-circle object-fit-cover mb-2" src="{{ profile.profile_picture.url }}" alt="Foto de perfil de {{ profile.user.username }}" width="120" height="120">
+                   {% else %}
+                   <div class="rounded-circle bg-secondary d-inline-block mb-2" style="width: 120px; height: 120px;"></div>
+                   <p class="text-muted small mb-0">No dispone de imagen de perfil</p>
+                   {% endif %}
                </div>
-         {% endfor %} 
-      </div>
+               <div class="card-body">
+                   <h2 class="card-title text-center mb-3">Perfil</h2>
+                   <p class="card-text">Este es el perfil de <strong>{{ profile.user.username }}</strong></p>
+                   <p class="card-text">Biografia: {{ profile.bio|default_if_none:"sin rellenar" }}</p>
+                   <p class="card-text">Fecha Nacimiento: {{ profile.birth_date|default_if_none:"sin rellenar" }}</p>
+                   
+                   {# Contadores calculados en la vista con la tabla Follow (no el M2M followers) #}
+                   <div class="row text-center mb-3">
+                       <div class="col-6">
+                           <p class="mb-1"><strong>{{ followers_count }}</strong></p>
+                           <p class="text-muted small mb-0">Seguidores</p>
+                       </div>
+                       <div class="col-6">
+                           <p class="mb-1"><strong>{{ following_count }}</strong></p>
+                           <p class="text-muted small mb-0">Seguidos</p>
+                       </div>
+                   </div>
+
+                   {# Un solo formulario: el texto del botón depende de is_following; la acción la decide la vista #}
+                   {% if profile.user != request.user %}
+                   <form method="post" class="d-grid">
+                       {% csrf_token %}
+                       <input type="hidden" name="profile_pk" value="{{ profile.pk }}">
+                       {% if is_following %}
+                           <button type="submit" class="btn btn-outline-secondary">Dejar de seguir</button>
+                       {% else %}
+                           <button type="submit" class="btn btn-primary">Seguir</button>
+                       {% endif %}
+                   </form>
+                   {% endif %}
+
+                   {% if profile.user == request.user %}
+                   <p class="text-center mt-3"><a href="{% url 'profile_update' profile.pk %}">Editar</a></p>
+                   {% endif %}
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <section class="mt-4">
+       <h2>Publicaciones</h2>
+       <div class="row">
+           {% for post in last_posts %}
+               <div class="col-12 col-sm-6 col-md-4">
+                   {% include '_includes/posts/_posts.html' %}
+               </div>
+           {% endfor %} 
+       </div>
    </section>
 </div>
 
