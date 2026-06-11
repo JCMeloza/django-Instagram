@@ -1,0 +1,7 @@
+/* Custom styles for Instagram-like project */
+
+/* Like button: preserve existing behavior and appearance */
+.likeButton {
+  text-decoration: none;
+  color: inherit;
+}
