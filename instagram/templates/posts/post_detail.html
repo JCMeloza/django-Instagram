@@ -68,24 +68,30 @@
                             </p>
                         {% endif %}
                      </div>
-                     <section class="comments py-2 px-3">
-                        <h5>Comentarios:</h5>
-                        {% if post.comments.all.count %}
-                            {% for comment in post.comments.all %}
-                                <article>
-                                    <header>
-                                        <p><strong>Autor:</strong> {{ comment.user }} <strong>creado</strong> : {{ comment.created_at|date:"d M Y, H:i" }}</p> 
-                                    </header>
-                                    <p>{{ comment.text }}</p>
-                                </article>
-                                <hr/>
-                            
-                           
-                            {% endfor %}
-                        {% else %}
-                            <p>No hay comentarios para esta publicación</p>
-                        
-                        {% endif %}
+                      <section class="comments py-2 px-3">
+                         <h5>Comentarios:</h5>
+                         {% if post.comments.all.count %}
+                             {% for comment in post.comments.all %}
+                                 <div class="card mb-2">
+                                     <div class="card-header bg-white py-2">
+                                         <div class="d-flex align-items-center gap-2">
+                                             {% if comment.user.profile.profile_picture %}
+                                             <img class="rounded-circle" src="{{ comment.user.profile.profile_picture.url }}" alt="Foto de perfil de {{ comment.user.username }}" width="32" height="32">
+                                             {% endif %}
+                                             <div>
+                                                 <strong class="d-block">{{ comment.user.username }}</strong>
+                                                 <small class="text-muted">{{ comment.created_at|date:"d M Y, H:i" }}</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="card-body py-2">
+                                         <p class="mb-0">{{ comment.text }}</p>
+                                     </div>
+                                 </div>
+                             {% endfor %}
+                         {% else %}
+                             <p class="text-muted text-center py-3">No hay comentarios para esta publicación</p>
+                         {% endif %}
                         <div>
                             <details>
                                 <summary>Nuevo Comentario</summary>
